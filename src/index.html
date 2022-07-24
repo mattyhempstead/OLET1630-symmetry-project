@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  
+<head>
+    <title>OLET1630 Symmetry Project</title>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+</head>
+    
+<body>
+    <style>
+        #canvas {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+    <canvas id="canvas" style="background-color:#333"></canvas>
+
+    <py-env>
+- paths:
+        - ./lib.py
+        - ./Button.py
+        - ./test.py
+    </py-env>
+
+    <py-script src="./main.py"></py-script>
+
+</body>
+ 
+</html>
