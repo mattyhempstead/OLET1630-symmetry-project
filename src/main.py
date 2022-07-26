@@ -8,7 +8,11 @@ from lib import print, canvas, ctx, canvas_on_click
 from Button import Button
 
 
-btn = Button()
+btn = Button(
+	x = -100,
+	y = -100,
+	text = "Next Iteration"
+)
 
 
 def drawClock(ctx, radius):
@@ -88,7 +92,7 @@ def drawHand(ctx, pos, length, width):
 
 
 radius = canvas.height / 2
-ctx.translate(radius, radius)
+# ctx.translate(radius, radius)
 radius = radius * 0.90
 
 drawClock(ctx, radius)
