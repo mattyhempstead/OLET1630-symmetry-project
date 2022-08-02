@@ -105,4 +105,5 @@ class Button:
         ctx.fillStyle = self.text_color
         ctx.font = self._font
         ctx.textAlign = "center"
+        ctx.textBaseline = "middle"
         ctx.fillText(self.text, self.x_center, self.y_center)

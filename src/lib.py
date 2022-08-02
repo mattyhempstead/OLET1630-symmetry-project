@@ -13,6 +13,9 @@ canvas = document.getElementById("canvas")
 ctx = canvas.getContext("2d")
 
 
+def canvas_set_background_color(color:str):
+    canvas.style.backgroundColor = color
+
 
 """
     Resize canvas to be same size as window.
@@ -21,16 +24,22 @@ ctx = canvas.getContext("2d")
           Could maybe create a 0.5 timeout which will only execute if the window
           is not resized for the whole 0.5 seconds (meaning we keep cancelling and restarting it).
 """
-def canvas_update_size(*args):
+def canvas_on_resize(func:Callable, init_call:bool=True):
+    if init_call:
+        func()
+
+    def temp_func(*args):
+        func()
+    temp_func_proxy = create_proxy(temp_func)
+    addEventListener("resize", temp_func_proxy)
+
+def canvas_update_size():
     print("Resizing canvas...")
     canvas = document.getElementById("canvas")
     print(canvas, canvas.clientWidth, canvas.clientHeight)
     canvas.width = canvas.clientWidth
     canvas.height = canvas.clientHeight
-canvas_update_size()
-canvas_update_size_proxy = create_proxy(canvas_update_size)
-addEventListener("resize", canvas_update_size_proxy)
-
+canvas_on_resize(canvas_update_size)
 
 
 def canvas_on_click(func:Callable):
