@@ -13,28 +13,33 @@ class FundamentalDomain:
 
         self.r = 7
 
-        self.tile_size = 150
+        self.tile_size = 200
         # The side length of the tile
         # For Rhombus tiles, this also means the side length of the equilateral triangles
 
+
+    def __eq__(self, other):
+        return hash(self) == hash(other)
 
     def __hash__(self):
         return hash((self.tile_x, self.tile_y))
 
     @property
     def x(self):
-        return canvas.width / 2
+        return canvas.width/2 + self.tile_x*self.tile_size - self.tile_y*self.tile_size_30
 
     @property
     def y(self):
-        return canvas.height / 2
+        return canvas.height/2 + self.tile_y*self.tile_size_60
 
     @property
     def tile_size_30(self):
+        """ sin(30 degrees) * tile_size """
         return math.sin(math.pi/6) * self.tile_size
 
     @property
     def tile_size_60(self):
+        """ sin(60 degrees) * tile_size """
         return math.sin(math.pi/3) * self.tile_size
 
     @property
@@ -96,6 +101,26 @@ class FundamentalDomain:
 
 
     def next_iteration(self):
-        self.iteration += 1
-
+        """
+            For now, return a random next sequence.
+            The pure translation signature allows for 4 directions of movement (NESW).
+        """
+        return [
+            FundamentalDomain(
+                tile_x = self.tile_x + 1,
+                tile_y = self.tile_y
+            ),
+            FundamentalDomain(
+                tile_x = self.tile_x - 1,
+                tile_y = self.tile_y
+            ),
+            FundamentalDomain(
+                tile_x = self.tile_x,
+                tile_y = self.tile_y + 1
+            ),
+            FundamentalDomain(
+                tile_x = self.tile_x,
+                tile_y = self.tile_y - 1
+            ),
+        ]
 
