@@ -26,15 +26,6 @@ class Menu:
 
         self.btn_list = []
 
-        # btn = Button(
-        #     x = 500,
-        #     y = 500,
-        #     text = f"test",
-        #     on_click = self.pick_signature,
-        #     on_click_kw = {"fd": FDomain.P6},
-        # )
-        # self.btn_list.append(btn)
-
 
         for i,fd_class in enumerate(self.fd_list):
             btn = Button(

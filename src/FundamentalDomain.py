@@ -39,7 +39,6 @@ class FundamentalDomain:
             [0, math.sin(math.pi/3)]
         ])
 
-
     @property
     def x(self) -> int:
         pass
@@ -48,32 +47,10 @@ class FundamentalDomain:
     def y(self) -> int:
         pass
 
-    @property
-    def tile_size_30(self):
-        """ sin(30 degrees) * tile_size """
-        return math.sin(math.pi/6) * self.tile_size
-
-    @property
-    def tile_size_60(self):
-        """ sin(60 degrees) * tile_size """
-        return math.sin(math.pi/3) * self.tile_size
-
     def draw(self):
         pass
         # draw_circle(
         #     0, 0, self.r,
-        #     # stroke_color="black", stroke_width=3
-        #     fill_color="black",
-        # )
-
-        # draw_circle(
-        #     100, 0, self.r,
-        #     # stroke_color="black", stroke_width=3
-        #     fill_color="black",
-        # )
-
-        # draw_circle(
-        #     0, 100, self.r,
         #     # stroke_color="black", stroke_width=3
         #     fill_color="black",
         # )
