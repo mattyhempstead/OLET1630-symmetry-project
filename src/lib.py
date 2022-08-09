@@ -1,12 +1,20 @@
 from typing import Callable
+import time
 from js import document, Math, setInterval, console, addEventListener
 from pyodide import create_proxy
 
 
 def print(*args, **kwargs):
-	console.group("py-script")
-	console.log(*args, **kwargs)
-	console.groupEnd()
+    console.group("py-script")
+
+    args_new = []
+    for i,arg in enumerate(args):
+        if type(arg) in [list, set]:
+            arg = str(arg)
+        args_new.append(arg)
+
+    console.log(*args_new, **kwargs)
+    console.groupEnd()
 
 
 canvas = document.getElementById("canvas")
@@ -64,3 +72,16 @@ def canvas_on_click(func:Callable):
     on_canvas_click_proxy = create_proxy(temp_func)
     canvas.addEventListener("click", on_canvas_click_proxy)
 
+    return on_canvas_click_proxy
+
+
+def canvas_remove_listener(event_type, func_proxy):
+    canvas.removeEventListener(event_type, func_proxy)
+
+
+
+def load_image(file_path, on_load):
+    img = document.createElement("img")
+    img.setAttribute("src", file_path)
+    img.onload = lambda e: on_load()
+    return img

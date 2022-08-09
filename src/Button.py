@@ -1,4 +1,5 @@
-from lib import print, canvas, ctx, canvas_on_click
+from typing import Callable, Dict
+from lib import print, canvas, ctx, canvas_on_click, canvas_remove_listener
 
 
 class Button:
@@ -9,6 +10,8 @@ class Button:
         w:int = None,
         h:int = None,
 
+        center_x:bool = False,
+
         text:str = "Button",
         text_color:str = "#000",
         text_size:int = 25,
@@ -17,11 +20,16 @@ class Button:
 
         stroke_color:str = "#555",
         stroke_width:str = 3,
+
+        on_click:Callable = None,
+        on_click_kw:Dict = {},
     ):
         self.x = x
         self.y = y
         self.w = w
         self.h = h
+
+        self.center_x = center_x
 
         self.fill_color = fill_color
 
@@ -32,18 +40,29 @@ class Button:
         self.text_color = text_color
         self.text_size = text_size
 
-        canvas_on_click(self.on_click_listener)
+        self.on_click = on_click
+        self.on_click_kw = on_click_kw
+        self.on_click_proxy = None
+        
+
+    def enable(self):
+        print("Enabling btn", self.text)
+        if self.on_click_proxy is None:
+            self.on_click_proxy = canvas_on_click(self.on_click_listener)
+
+    def disable(self):
+        if self.on_click_proxy is not None:
+            canvas_remove_listener("click", self.on_click_proxy)
+            self.on_click_proxy = None
 
 
     def on_click_listener(self, x, y, **kwargs):
         if x < self._x or x > self._x + self._w:
+            # print("wrong x", x, self._x, self._w)
             return
         if y < self._y or y > self._y + self._h:
             return
-        self.on_click()
-
-    def on_click(self):
-        print("Clicked button")
+        self.on_click(**self.on_click_kw)
 
     @property
     def _font(self):
@@ -52,16 +71,19 @@ class Button:
     @property
     def _x(self):
         if self.x >= 0:
-            return self.x
+            x = self.x
         else:
-            return canvas.width - self._w + self.x
+            x = canvas.width - self._w + self.x
+        x -= self._w*self.center_x/2
+        return x
 
     @property
     def _y(self):
         if self.y >= 0:
-            return self.y
+            y = self.y
         else:
-            return canvas.height - self._h + self.y
+            y = canvas.height - self._h + self.y
+        return y
 
     @property
     def _w(self):
